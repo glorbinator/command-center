@@ -1,0 +1,41 @@
+{
+  "events": [
+    {
+      "id": "event_1771453624325_hl7041fx7",
+      "title": "Weekly Review",
+      "description": "Review all tasks and progress",
+      "startTime": "2026-02-23T18:00:00Z",
+      "endTime": "2026-02-23T19:00:00Z",
+      "type": "meeting",
+      "recurring": "weekly",
+      "reminder": null,
+      "assignee": "Glorb",
+      "tags": [
+        "review",
+        "planning"
+      ],
+      "status": "scheduled",
+      "createdAt": "2026-02-18T22:27:04.325Z",
+      "updatedAt": "2026-02-18T22:27:04.325Z"
+    },
+    {
+      "id": "event_1771453631628_srq3ih2ec",
+      "title": "Deploy Command Center",
+      "description": "Deploy updated API with calendar",
+      "startTime": "2026-02-19T14:00:00Z",
+      "endTime": "2026-02-19T14:00:00Z",
+      "type": "task",
+      "recurring": null,
+      "reminder": null,
+      "assignee": "Glorb",
+      "tags": [
+        "deploy",
+        "api"
+      ],
+      "status": "scheduled",
+      "createdAt": "2026-02-18T22:27:11.628Z",
+      "updatedAt": "2026-02-18T22:27:11.628Z"
+    }
+  ],
+  "lastUpdated": "2026-02-18T22:27:11.628Z"
+}

@@ -1,0 +1,39 @@
+{
+  "jobs": [
+    {
+      "id": "cron_1771453631635_8knf2nk6t",
+      "name": "Daily Task Sync",
+      "schedule": "0 9 * * *",
+      "description": "Sync tasks from Command Center",
+      "task": "sync-tasks",
+      "enabled": true,
+      "status": "scheduled",
+      "lastRun": null,
+      "nextRun": null,
+      "runCount": 0,
+      "metadata": {
+        "notify": true
+      },
+      "createdAt": "2026-02-18T22:27:11.635Z",
+      "updatedAt": "2026-02-18T22:27:11.635Z"
+    },
+    {
+      "id": "cron_1771453631641_jn3takfmr",
+      "name": "Heartbeat Check",
+      "schedule": "*/30 * * * *",
+      "description": "Check system health every 30 min",
+      "task": "health-check",
+      "enabled": true,
+      "status": "scheduled",
+      "lastRun": null,
+      "nextRun": null,
+      "runCount": 0,
+      "metadata": {
+        "priority": "low"
+      },
+      "createdAt": "2026-02-18T22:27:11.641Z",
+      "updatedAt": "2026-02-18T22:27:11.641Z"
+    }
+  ],
+  "lastUpdated": "2026-02-18T22:27:11.641Z"
+}

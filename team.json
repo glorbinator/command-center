@@ -1,0 +1,242 @@
+{
+  "agents": [
+    {
+      "id": "glorb_main",
+      "name": "Glorb",
+      "role": "Coordinator",
+      "type": "main",
+      "status": "active",
+      "description": "Primary agent. Coordinates all work, manages subagents, interfaces with you.",
+      "capabilities": ["task_management", "memory", "planning", "communication"],
+      "avatar": "🤖",
+      "createdAt": "2026-02-18T00:00:00Z",
+      "stats": {
+        "tasksCompleted": 0,
+        "sessionsActive": 1
+      }
+    },
+    {
+      "id": "dev_frontend",
+      "name": "Pixel",
+      "role": "Frontend Developer",
+      "type": "subagent",
+      "parent": "glorb_main",
+      "status": "standby",
+      "description": "Specializes in React, Vue, HTML/CSS, JavaScript. Builds beautiful UIs.",
+      "capabilities": ["react", "vue", "css", "javascript", "ui_development"],
+      "avatar": "💻",
+      "specialties": ["responsive_design", "animations", "component_libraries"],
+      "createdAt": "2026-02-18T00:00:00Z",
+      "stats": {
+        "tasksCompleted": 0,
+        "linesOfCode": 0
+      }
+    },
+    {
+      "id": "dev_backend",
+      "name": "Kernel",
+      "role": "Backend Developer",
+      "type": "subagent",
+      "parent": "glorb_main",
+      "status": "standby",
+      "description": "Specializes in Node.js, Python, APIs, databases. Builds robust systems.",
+      "capabilities": ["nodejs", "python", "apis", "databases", "architecture"],
+      "avatar": "⚙️",
+      "specialties": ["rest_apis", "database_design", "performance_optimization"],
+      "createdAt": "2026-02-18T00:00:00Z",
+      "stats": {
+        "tasksCompleted": 0,
+        "endpointsBuilt": 0
+      }
+    },
+    {
+      "id": "dev_mobile",
+      "name": "Pocket",
+      "role": "Mobile Developer",
+      "type": "subagent",
+      "parent": "glorb_main",
+      "status": "standby",
+      "description": "Specializes in iOS, Android, React Native. Builds mobile experiences.",
+      "capabilities": ["react_native", "ios", "android", "mobile_ui", "pwas"],
+      "avatar": "📱",
+      "specialties": ["responsive_mobile", "app_store_deployment", "mobile_ux"],
+      "createdAt": "2026-02-18T00:00:00Z",
+      "stats": {
+        "tasksCompleted": 0,
+        "appsShipped": 0
+      }
+    },
+    {
+      "id": "writer_content",
+      "name": "Quill",
+      "role": "Content Writer",
+      "type": "subagent",
+      "parent": "glorb_main",
+      "status": "standby",
+      "description": "Specializes in articles, blog posts, long-form content. Crafts compelling narratives.",
+      "capabilities": ["writing", "research", "storytelling", "seo"],
+      "avatar": "✍️",
+      "specialties": ["blog_posts", "articles", "case_studies", "whitepapers"],
+      "createdAt": "2026-02-18T00:00:00Z",
+      "stats": {
+        "tasksCompleted": 0,
+        "wordsWritten": 0
+      }
+    },
+    {
+      "id": "writer_copy",
+      "name": "Hook",
+      "role": "Copywriter",
+      "type": "subagent",
+      "parent": "glorb_main",
+      "status": "standby",
+      "description": "Specializes in marketing copy, ads, emails, landing pages. Makes words sell.",
+      "capabilities": ["copywriting", "marketing", "conversion", "brand_voice"],
+      "avatar": "🎯",
+      "specialties": ["landing_pages", "email_sequences", "ad_copy", "product_descriptions"],
+      "createdAt": "2026-02-18T00:00:00Z",
+      "stats": {
+        "tasksCompleted": 0,
+        "campaigns": 0
+      }
+    },
+    {
+      "id": "writer_docs",
+      "name": "Guide",
+      "role": "Technical Writer",
+      "type": "subagent",
+      "parent": "glorb_main",
+      "status": "standby",
+      "description": "Specializes in documentation, READMEs, API docs, tutorials. Makes complex things clear.",
+      "capabilities": ["technical_writing", "documentation", "tutorials", "api_docs"],
+      "avatar": "📚",
+      "specialties": ["api_documentation", "user_guides", "code_examples", "onboarding"],
+      "createdAt": "2026-02-18T00:00:00Z",
+      "stats": {
+        "tasksCompleted": 0,
+        "docsWritten": 0
+      }
+    },
+    {
+      "id": "design_uiux",
+      "name": "Vision",
+      "role": "UI/UX Designer",
+      "type": "subagent",
+      "parent": "glorb_main",
+      "status": "standby",
+      "description": "Specializes in interfaces, user flows, wireframes, prototypes. Makes things usable.",
+      "capabilities": ["ui_design", "ux_research", "wireframing", "prototyping"],
+      "avatar": "🎨",
+      "specialties": ["user_research", "wireframes", "design_systems", "accessibility"],
+      "createdAt": "2026-02-18T00:00:00Z",
+      "stats": {
+        "tasksCompleted": 0,
+        "designsShipped": 0
+      }
+    },
+    {
+      "id": "design_visual",
+      "name": "Palette",
+      "role": "Visual Designer",
+      "type": "subagent",
+      "parent": "glorb_main",
+      "status": "standby",
+      "description": "Specializes in graphics, illustrations, branding, visuals. Makes things beautiful.",
+      "capabilities": ["graphic_design", "branding", "illustration", "visual_identity"],
+      "avatar": "🖌️",
+      "specialties": ["logos", "social_graphics", "presentations", "brand_guidelines"],
+      "createdAt": "2026-02-18T00:00:00Z",
+      "stats": {
+        "tasksCompleted": 0,
+        "assetsCreated": 0
+      }
+    },
+    {
+      "id": "research_analyst",
+      "name": "Scope",
+      "role": "Research Analyst",
+      "type": "subagent",
+      "parent": "glorb_main",
+      "status": "standby",
+      "description": "Specializes in research, analysis, data gathering, reports. Finds the facts.",
+      "capabilities": ["research", "analysis", "data_gathering", "reporting"],
+      "avatar": "🔍",
+      "specialties": ["market_research", "competitor_analysis", "trend_reporting", "data_synthesis"],
+      "createdAt": "2026-02-18T00:00:00Z",
+      "stats": {
+        "tasksCompleted": 0,
+        "reportsDelivered": 0
+      }
+    },
+    {
+      "id": "devops_engineer",
+      "name": "Pipeline",
+      "role": "DevOps Engineer",
+      "type": "subagent",
+      "parent": "glorb_main",
+      "status": "standby",
+      "description": "Specializes in infrastructure, deployment, CI/CD, automation. Keeps things running.",
+      "capabilities": ["infrastructure", "deployment", "cicd", "automation", "monitoring"],
+      "avatar": "🚀",
+      "specialties": ["cloud_platforms", "docker", "kubernetes", "github_actions", "monitoring"],
+      "createdAt": "2026-02-18T00:00:00Z",
+      "stats": {
+        "tasksCompleted": 0,
+        "deployments": 0
+      }
+    }
+  ],
+  "roles": [
+    {
+      "id": "coordinator",
+      "name": "Coordinator",
+      "description": "Main agent that orchestrates all work"
+    },
+    {
+      "id": "developer",
+      "name": "Developer",
+      "description": "Builds software and systems"
+    },
+    {
+      "id": "writer",
+      "name": "Writer",
+      "description": "Creates written content"
+    },
+    {
+      "id": "designer",
+      "name": "Designer",
+      "description": "Creates visual designs and experiences"
+    },
+    {
+      "id": "researcher",
+      "name": "Researcher",
+      "description": "Gathers and analyzes information"
+    },
+    {
+      "id": "devops",
+      "name": "DevOps",
+      "description": "Manages infrastructure and deployment"
+    }
+  ],
+  "squads": [
+    {
+      "id": "squad_dev",
+      "name": "Engineering Squad",
+      "agents": ["dev_frontend", "dev_backend", "dev_mobile", "devops_engineer"],
+      "description": "Builds and ships software"
+    },
+    {
+      "id": "squad_content",
+      "name": "Content Squad",
+      "agents": ["writer_content", "writer_copy", "writer_docs"],
+      "description": "Creates all written materials"
+    },
+    {
+      "id": "squad_design",
+      "name": "Design Squad",
+      "agents": ["design_uiux", "design_visual"],
+      "description": "Designs interfaces and visuals"
+    }
+  ],
+  "lastUpdated": "2026-02-18T00:00:00Z"
+}

@@ -1,0 +1,47 @@
+{
+  "tasks": [
+    {
+      "id": "task_1771453391840_82eeswcof",
+      "title": "Build Command Center",
+      "description": "Create task board API with real-time updates",
+      "status": "done",
+      "assignee": "Glorb",
+      "priority": "high",
+      "tags": [
+        "api",
+        "backend"
+      ],
+      "createdAt": "2026-02-18T22:23:11.840Z",
+      "updatedAt": "2026-02-18T22:23:11.840Z"
+    },
+    {
+      "id": "task_1771453395367_jb8hkyheg",
+      "title": "Design Lovable Frontend",
+      "description": "Create beautiful UI in Lovable to display task board",
+      "status": "todo",
+      "assignee": "SeñorCucumber",
+      "priority": "high",
+      "tags": [
+        "frontend",
+        "design"
+      ],
+      "createdAt": "2026-02-18T22:23:15.367Z",
+      "updatedAt": "2026-02-18T22:23:15.367Z"
+    },
+    {
+      "id": "task_1771453395374_tw0miup0p",
+      "title": "Integrate WebSocket updates",
+      "description": "Connect frontend to real-time task updates",
+      "status": "todo",
+      "assignee": "Glorb",
+      "priority": "medium",
+      "tags": [
+        "frontend",
+        "websocket"
+      ],
+      "createdAt": "2026-02-18T22:23:15.374Z",
+      "updatedAt": "2026-02-18T22:23:15.374Z"
+    }
+  ],
+  "lastUpdated": "2026-02-18T22:23:15.374Z"
+}
