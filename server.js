@@ -954,6 +954,94 @@ app.delete('/api/reminders/:id', (req, res) => {
   res.json({ message: 'Reminder deleted', reminder: deleted });
 });
 
+// ========== SYSTEM API ==========
+
+const { exec } = require('child_process');
+
+// Get storage usage
+app.get('/api/system/storage', (req, res) => {
+  exec('df -h / | tail -1', (error, stdout) => {
+    if (error) {
+      return res.status(500).json({ error: 'Failed to get storage info' });
+    }
+    
+    // Parse df output: Filesystem Size Used Avail Use%
+    const parts = stdout.trim().split(/\s+/);
+    const total = parts[1];
+    const used = parts[2];
+    const available = parts[3];
+    const percentUsed = parseInt(parts[4]);
+    
+    // Get workspace breakdown
+    const workspaceRoot = path.join(__dirname, '..');
+    const breakdown = [];
+    
+    try {
+      const items = fs.readdirSync(workspaceRoot);
+      items.forEach(item => {
+        const itemPath = path.join(workspaceRoot, item);
+        try {
+          const stats = fs.statSync(itemPath);
+          if (stats.isDirectory()) {
+            // Calculate directory size (this is approximate)
+            let size = 0;
+            try {
+              const files = execSync(`find "${itemPath}" -type f 2>/dev/null | head -1000`)
+                .toString()
+                .split('\n')
+                .filter(f => f);
+              files.forEach(f => {
+                try { size += fs.statSync(f).size; } catch(e) {}
+              });
+            } catch(e) {}
+            
+            if (size > 1024 * 1024) { // Only show if > 1MB
+              breakdown.push({
+                name: item,
+                size: formatBytes(size),
+                sizeBytes: size,
+                type: 'directory'
+              });
+            }
+          } else if (stats.size > 1024 * 1024) {
+            breakdown.push({
+              name: item,
+              size: formatBytes(stats.size),
+              sizeBytes: stats.size,
+              type: 'file'
+            });
+          }
+        } catch(e) {}
+      });
+      
+      // Sort by size
+      breakdown.sort((a, b) => b.sizeBytes - a.sizeBytes);
+    } catch(e) {}
+    
+    res.json({
+      filesystem: '/dev/root',
+      total,
+      used,
+      available,
+      percentUsed,
+      status: percentUsed > 90 ? 'critical' : percentUsed > 70 ? 'warning' : 'ok',
+      breakdown: breakdown.slice(0, 10),
+      timestamp: new Date().toISOString()
+    });
+  });
+});
+
+// Helper to format bytes
+function formatBytes(bytes) {
+  if (bytes === 0) return '0 B';
+  const k = 1024;
+  const sizes = ['B', 'KB', 'MB', 'GB'];
+  const i = Math.floor(Math.log(bytes) / Math.log(k));
+  return parseFloat((bytes / Math.pow(k, i)).toFixed(1)) + ' ' + sizes[i];
+}
+
+const { execSync } = require('child_process');
+
 // ========== WebSocket ==========
 
 wss.on('connection', (ws) => {
