@@ -6,534 +6,121 @@
     <title>Command Center</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        :root { --bg: #0a0e27; --bg2: #0f172a; --accent: #38bdf8; --text: #e0f2fe; --muted: #64748b; --warn: #fbbf24; --success: #34d399; --danger: #f87171; }
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-            background: linear-gradient(135deg, #0a0e27 0%, #050817 100%);
-            color: #e0f2fe;
-            min-height: 100vh;
-        }
-        .header {
-            background: rgba(10,14,39,0.95);
-            padding: 24px 40px;
-            border-bottom: 1px solid rgba(56,189,248,0.2);
-            backdrop-filter: blur(10px);
-        }
-        .header h1 {
-            font-size: 1.6rem;
-            font-weight: 300;
-            letter-spacing: 3px;
-            color: #38bdf8;
-        }
-        .header .subtitle {
-            color: #64748b;
-            font-size: 0.85rem;
-            margin-top: 8px;
-            letter-spacing: 1px;
-        }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes slideIn { from { transform: translateX(100%); } to { transform: translateX(0); } }
+        body { font-family: -apple-system, BlinkMacSystemFont, sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+        .header { background: rgba(10,14,39,0.95); padding: 24px 40px; border-bottom: 1px solid rgba(56,189,248,0.2); position: sticky; top: 0; z-index: 100; }
+        .header h1 { font-size: 1.6rem; font-weight: 300; letter-spacing: 3px; color: var(--accent); }
+        .header .subtitle { color: var(--muted); font-size: 0.85rem; margin-top: 8px; }
         .container { max-width: 1400px; margin: 0 auto; padding: 40px 20px; }
-        .tabs {
-            display: flex;
-            gap: 8px;
-            margin-bottom: 32px;
-            border-bottom: 1px solid rgba(56,189,248,0.1);
-            padding-bottom: 16px;
-        }
-        .tab {
-            padding: 12px 24px;
-            background: transparent;
-            border: none;
-            color: #64748b;
-            cursor: pointer;
-            font-size: 0.85rem;
-            border-radius: 4px;
-            transition: all 0.2s;
-            letter-spacing: 0.5px;
-        }
-        .tab:hover { color: #38bdf8; }
-        .tab.active { background: rgba(56,189,248,0.1); color: #38bdf8; }
-        .section { display: none; }
+        .tabs { display: flex; gap: 8px; margin-bottom: 32px; border-bottom: 1px solid rgba(56,189,248,0.1); padding-bottom: 16px; }
+        .tab { padding: 12px 24px; background: transparent; border: none; color: var(--muted); cursor: pointer; font-size: 0.85rem; border-radius: 4px; transition: all 0.3s; }
+        .tab:hover { color: var(--accent); background: rgba(56,189,248,0.1); }
+        .tab.active { background: rgba(56,189,248,0.1); color: var(--accent); }
+        .section { display: none; animation: fadeIn 0.5s; }
         .section.active { display: block; }
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 24px;
-            margin-bottom: 40px;
-        }
-        .card {
-            background: rgba(15,23,42,0.6);
-            border-radius: 8px;
-            padding: 28px;
-            border: 1px solid rgba(56,189,248,0.1);
-        }
-        .card:hover {
-            border-color: rgba(56,189,248,0.3);
-            box-shadow: 0 0 30px rgba(56,189,248,0.05);
-        }
-        .card h2 {
-            font-size: 0.9rem;
-            font-weight: 400;
-            margin-bottom: 20px;
-            color: #38bdf8;
-            letter-spacing: 1px;
-        }
-        .stat-row {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 12px;
-            padding: 10px 0;
-            border-bottom: 1px solid rgba(56,189,248,0.05);
-        }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; margin-bottom: 40px; }
+        .card { background: rgba(15,23,42,0.6); border-radius: 8px; padding: 28px; border: 1px solid rgba(56,189,248,0.1); transition: all 0.3s; cursor: pointer; position: relative; overflow: hidden; }
+        .card:hover { border-color: rgba(56,189,248,0.4); box-shadow: 0 0 40px rgba(56,189,248,0.1); transform: translateY(-4px); }
+        .card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        .card h2 { font-size: 0.9rem; font-weight: 400; color: var(--accent); letter-spacing: 1px; }
+        .card-action { font-size: 0.75rem; color: var(--muted); }
+        .card:hover .card-action { color: var(--accent); }
+        .stat-row { display: flex; justify-content: space-between; margin-bottom: 12px; padding: 10px 0; border-bottom: 1px solid rgba(56,189,248,0.05); }
         .stat-row:last-child { border-bottom: none; }
-        .stat-label { color: #64748b; font-size: 0.85rem; }
-        .stat-value { color: #e0f2fe; font-weight: 500; }
-        .badge {
-            display: inline-block;
-            padding: 3px 8px;
-            border-radius: 3px;
-            font-size: 0.65rem;
-            font-weight: 500;
-            letter-spacing: 0.5px;
-            text-transform: uppercase;
-        }
-        .badge-todo { background: rgba(251,191,36,0.15); color: #fbbf24; border: 1px solid rgba(251,191,36,0.3); }
-        .badge-progress { background: rgba(56,189,248,0.15); color: #38bdf8; border: 1px solid rgba(56,189,248,0.3); }
-        .badge-review { background: rgba(248,113,113,0.15); color: #f87171; border: 1px solid rgba(248,113,113,0.3); }
-        .badge-done { background: rgba(52,211,153,0.15); color: #34d399; border: 1px solid rgba(52,211,153,0.3); }
-        .badge-high { background: rgba(248,113,113,0.15); color: #f87171; border: 1px solid rgba(248,113,113,0.3); }
-        .badge-standby { background: rgba(100,116,139,0.15); color: #64748b; border: 1px solid rgba(100,116,139,0.3); }
-        .badge-active { background: rgba(52,211,153,0.15); color: #34d399; border: 1px solid rgba(52,211,153,0.3); }
-        .item-list { max-height: 400px; overflow-y: auto; }
-        .item {
-            background: rgba(15,23,42,0.4);
-            padding: 16px;
-            border-radius: 6px;
-            margin-bottom: 10px;
-            border-left: 3px solid #38bdf8;
-        }
-        .item-title { font-weight: 500; color: #e0f2fe; margin-bottom: 8px; font-size: 0.9rem; }
-        .item-meta {
-            font-size: 0.75rem;
-            color: #64748b;
-            display: flex;
-            gap: 12px;
-            flex-wrap: wrap;
-            align-items: center;
-        }
-        
-        /* Org Tree */
-        .org-tree {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 40px 0;
-        }
-        .org-level {
-            display: flex;
-            justify-content: center;
-            gap: 60px;
-            margin-bottom: 80px;
-            position: relative;
-        }
-        .org-level::before {
-            content: '';
-            position: absolute;
-            top: -40px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 1px;
-            height: 40px;
-            background: linear-gradient(to bottom, transparent, rgba(56,189,248,0.3));
-        }
-        .org-node {
-            background: rgba(15,23,42,0.8);
-            border: 1px solid rgba(56,189,248,0.2);
-            border-radius: 8px;
-            padding: 24px 28px;
-            min-width: 180px;
-            text-align: center;
-            position: relative;
-        }
-        .org-node::after {
-            content: '';
-            position: absolute;
-            bottom: -40px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 1px;
-            height: 40px;
-            background: linear-gradient(to bottom, rgba(56,189,248,0.3), transparent);
-        }
-        .org-node.leaf::after { display: none; }
-        .org-node .icon {
-            width: 48px;
-            height: 48px;
-            margin: 0 auto 12px;
-            background: rgba(56,189,248,0.1);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #38bdf8;
-            font-size: 1.2rem;
-        }
-        .org-node .name { font-size: 1rem; font-weight: 500; color: #e0f2fe; margin-bottom: 4px; }
-        .org-node .role { font-size: 0.75rem; color: #64748b; margin-bottom: 10px; }
-        .org-children {
-            display: flex;
-            justify-content: center;
-            gap: 30px;
-            flex-wrap: wrap;
-            max-width: 1200px;
-        }
-        .org-children::before {
-            content: '';
-            position: absolute;
-            top: -40px;
-            left: 5%;
-            right: 5%;
-            height: 1px;
-            background: linear-gradient(to right, transparent, rgba(56,189,248,0.2), transparent);
-        }
-        
-        .squad-section {
-            margin-top: 60px;
-            padding-top: 40px;
-            border-top: 1px solid rgba(56,189,248,0.1);
-        }
-        .squad-section h3 {
-            color: #38bdf8;
-            font-size: 1rem;
-            font-weight: 400;
-            margin-bottom: 24px;
-            letter-spacing: 1px;
-        }
-        .squad-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
-        }
-        .squad-card {
-            background: rgba(15,23,42,0.4);
-            border: 1px solid rgba(56,189,248,0.1);
-            border-radius: 6px;
-            padding: 20px;
-        }
-        .squad-card h4 {
-            color: #e0f2fe;
-            font-size: 0.9rem;
-            font-weight: 500;
-            margin-bottom: 8px;
-        }
-        .squad-card p { color: #64748b; font-size: 0.8rem; margin-bottom: 12px; }
-        .squad-members { display: flex; flex-wrap: wrap; gap: 8px; }
-        .squad-member {
-            background: rgba(56,189,248,0.1);
-            color: #38bdf8;
-            padding: 4px 10px;
-            border-radius: 3px;
-            font-size: 0.7rem;
-        }
-        
-        .loading { text-align: center; padding: 60px; color: #64748b; }
-        .error {
-            background: rgba(248,113,113,0.1);
-            border: 1px solid rgba(248,113,113,0.3);
-            padding: 20px;
-            border-radius: 6px;
-            color: #f87171;
-        }
-        .search-box {
-            width: 100%;
-            padding: 14px 18px;
-            background: rgba(15,23,42,0.6);
-            border: 1px solid rgba(56,189,248,0.2);
-            border-radius: 6px;
-            color: #e0f2fe;
-            font-size: 0.9rem;
-            margin-bottom: 20px;
-        }
-        .search-box:focus {
-            outline: none;
-            border-color: rgba(56,189,248,0.5);
-        }
-        .memory-content {
-            background: rgba(15,23,42,0.8);
-            padding: 24px;
-            border-radius: 6px;
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.8rem;
-            line-height: 1.7;
-            white-space: pre-wrap;
-            max-height: 500px;
-            overflow-y: auto;
-            color: #e0f2fe;
-            border: 1px solid rgba(56,189,248,0.1);
-        }
-        .btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 10px 18px;
-            background: rgba(56,189,248,0.1);
-            color: #38bdf8;
-            border: 1px solid rgba(56,189,248,0.3);
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 0.8rem;
-        }
+        .stat-label { color: var(--muted); font-size: 0.85rem; }
+        .stat-value { color: var(--text); font-weight: 500; }
+        .badge { display: inline-block; padding: 3px 8px; border-radius: 3px; font-size: 0.65rem; font-weight: 500; text-transform: uppercase; }
+        .badge-todo { background: rgba(251,191,36,0.15); color: var(--warn); border: 1px solid rgba(251,191,36,0.3); }
+        .badge-progress { background: rgba(56,189,248,0.15); color: var(--accent); border: 1px solid rgba(56,189,248,0.3); }
+        .badge-done { background: rgba(52,211,153,0.15); color: var(--success); border: 1px solid rgba(52,211,153,0.3); }
+        .badge-high { background: rgba(248,113,113,0.15); color: var(--danger); border: 1px solid rgba(248,113,113,0.3); }
+        .collapsible { border: 1px solid rgba(56,189,248,0.1); border-radius: 6px; margin-bottom: 12px; overflow: hidden; }
+        .collapsible-header { background: rgba(15,23,42,0.4); padding: 16px 20px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
+        .collapsible-header h3 { font-size: 0.85rem; font-weight: 500; }
+        .collapsible-header .count { background: rgba(56,189,248,0.1); color: var(--accent); padding: 2px 8px; border-radius: 12px; font-size: 0.75rem; margin-left: 10px; }
+        .collapsible-header i { transition: transform 0.3s; color: var(--accent); }
+        .collapsible.open .collapsible-header i { transform: rotate(180deg); }
+        .collapsible-content { max-height: 0; overflow: hidden; transition: max-height 0.3s; }
+        .collapsible.open .collapsible-content { max-height: 2000px; }
+        .collapsible-inner { padding: 20px; background: rgba(15,23,42,0.2); }
+        .item { background: rgba(15,23,42,0.4); padding: 16px; border-radius: 6px; margin-bottom: 10px; border-left: 3px solid var(--accent); transition: all 0.2s; }
+        .item:hover { background: rgba(15,23,42,0.7); transform: translateX(4px); }
+        .item-title { font-weight: 500; margin-bottom: 8px; display: flex; justify-content: space-between; }
+        .item-actions { display: flex; gap: 12px; }
+        .item-actions button { background: transparent; border: none; color: var(--muted); cursor: pointer; padding: 4px; transition: color 0.2s; }
+        .item-actions button:hover { color: var(--accent); }
+        .item-meta { font-size: 0.75rem; color: var(--muted); display: flex; gap: 12px; flex-wrap: wrap; }
+        .form-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.8); backdrop-filter: blur(5px); display: none; justify-content: center; align-items: center; z-index: 1000; }
+        .form-overlay.active { display: flex; }
+        .form-modal { background: var(--bg2); border: 1px solid rgba(56,189,248,0.2); border-radius: 12px; padding: 32px; width: 90%; max-width: 500px; max-height: 90vh; overflow-y: auto; animation: fadeIn 0.3s; }
+        .form-modal h2 { color: var(--accent); margin-bottom: 24px; font-size: 1.2rem; }
+        .form-group { margin-bottom: 20px; }
+        .form-group label { display: block; color: var(--muted); font-size: 0.85rem; margin-bottom: 8px; }
+        .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 12px 16px; background: #1e293b; border: 1px solid rgba(56,189,248,0.2); border-radius: 6px; color: var(--text); font-size: 0.9rem; }
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus { outline: none; border-color: var(--accent); }
+        .form-group textarea { min-height: 100px; resize: vertical; }
+        .form-actions { display: flex; gap: 12px; justify-content: flex-end; margin-top: 24px; }
+        .btn { display: inline-flex; align-items: center; gap: 8px; padding: 10px 20px; background: rgba(56,189,248,0.1); color: var(--accent); border: 1px solid rgba(56,189,248,0.3); border-radius: 6px; cursor: pointer; font-size: 0.85rem; transition: all 0.2s; }
         .btn:hover { background: rgba(56,189,248,0.2); }
-        @media (max-width: 768px) {
-            .header { padding: 20px; }
-            .header h1 { font-size: 1.2rem; }
-            .tabs { flex-wrap: wrap; }
-            .org-level { flex-direction: column; gap: 20px; }
-            .org-children { flex-direction: column; }
-        }
+        .btn-primary { background: var(--accent); color: var(--bg); }
+        .btn-fab { position: fixed; bottom: 30px; right: 30px; width: 56px; height: 56px; border-radius: 50%; background: var(--accent); color: var(--bg); border: none; font-size: 1.5rem; cursor: pointer; box-shadow: 0 4px 20px rgba(56,189,248,0.4); transition: all 0.3s; display: flex; align-items: center; justify-content: center; }
+        .btn-fab:hover { transform: scale(1.1) rotate(90deg); }
+        .toast-container { position: fixed; top: 20px; right: 20px; z-index: 2000; }
+        .toast { background: var(--bg2); border: 1px solid rgba(56,189,248,0.3); border-radius: 8px; padding: 16px 20px; margin-bottom: 10px; display: flex; align-items: center; gap: 12px; animation: slideIn 0.3s; }
+        .toast.success { border-color: var(--success); }
+        .toast.error { border-color: var(--danger); }
+        .memory-content { background: #1e293b; padding: 24px; border-radius: 6px; font-family: monospace; font-size: 0.85rem; line-height: 1.7; white-space: pre-wrap; max-height: 500px; overflow-y: auto; color: var(--text); border: 1px solid rgba(56,189,248,0.1); }
+        .org-tree { display: flex; flex-direction: column; align-items: center; padding: 40px 0; }
+        .org-level { display: flex; justify-content: center; gap: 60px; margin-bottom: 60px; }
+        .org-node { background: rgba(15,23,42,0.8); border: 1px solid rgba(56,189,248,0.2); border-radius: 8px; padding: 24px; min-width: 160px; text-align: center; transition: all 0.3s; cursor: pointer; }
+        .org-node:hover { border-color: rgba(56,189,248,0.5); transform: translateY(-4px); }
+        .org-node .icon { width: 48px; height: 48px; margin: 0 auto 12px; background: rgba(56,189,248,0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--accent); font-size: 1.2rem; }
+        .org-node .name { font-size: 1rem; font-weight: 500; margin-bottom: 4px; }
+        .org-node .role { font-size: 0.75rem; color: var(--muted); margin-bottom: 10px; }
+        .org-children { display: flex; justify-content: center; gap: 30px; flex-wrap: wrap; max-width: 1200px; }
+        .squad-section { margin-top: 40px; padding-top: 40px; border-top: 1px solid rgba(56,189,248,0.1); }
+        .squad-section h3 { color: var(--accent); font-size: 1rem; font-weight: 400; margin-bottom: 24px; }
+        .squad-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
+        .squad-card { background: rgba(15,23,42,0.4); border: 1px solid rgba(56,189,248,0.1); border-radius: 6px; padding: 20px; }
+        .squad-card h4 { color: var(--text); font-size: 0.9rem; font-weight: 500; margin-bottom: 8px; }
+        .squad-card p { color: var(--muted); font-size: 0.8rem; margin-bottom: 12px; }
+        .squad-members { display: flex; flex-wrap: wrap; gap: 8px; }
+        .squad-member { background: rgba(56,189,248,0.1); color: var(--accent); padding: 4px 10px; border-radius: 3px; font-size: 0.75rem; }
+        .search-box { width: 100%; padding: 14px 18px; background: rgba(15,23,42,0.6); border: 1px solid rgba(56,189,248,0.2); border-radius: 6px; color: var(--text); font-size: 0.9rem; margin-bottom: 20px; }
+        .search-box:focus { outline: none; border-color: var(--accent); }
+        @media (max-width: 768px) { .header { padding: 20px; } .header h1 { font-size: 1.2rem; } .tabs { flex-wrap: wrap; } .grid { grid-template-columns: 1fr; } .org-level { flex-direction: column; gap: 20px; } .org-children { flex-direction: column; } }
     </style>
 </head>
 <body>
     <div class="header">
         <h1>COMMAND CENTER</h1>
-        <div class="subtitle" id="status">Initializing...</div>
+        <div class="subtitle" id="status">Loading...</div>
     </div>
-    
     <div class="container">
         <div class="tabs">
-            <button class="tab active" onclick="showSection('dashboard')">Dashboard</button>
-            <button class="tab" onclick="showSection('tasks')">Tasks</button>
-            <button class="tab" onclick="showSection('calendar')">Calendar</button>
-            <button class="tab" onclick="showSection('team')">Organization</button>
-            <button class="tab" onclick="showSection('memories')">Memory</button>
+            <button class="tab active" onclick="showTab('dashboard', this)">Dashboard</button>
+            <button class="tab" onclick="showTab('tasks', this)">Tasks</button>
+            <button class="tab" onclick="showTab('calendar', this)">Calendar</button>
+            <button class="tab" onclick="showTab('team', this)">Organization</button>
+            <button class="tab" onclick="showTab('memories', this)">Memory</button>
         </div>
-        
-        <div id="dashboard" class="section active">
-            <div class="grid" id="dashboard-grid">
-                <div class="loading">Loading dashboard...</div>
-            </div>
-        </div>
-        
-        <div id="tasks" class="section">
-            <div class="card">
-                <h2>Active Tasks</h2>
-                <div id="tasks-list" class="item-list"><div class="loading">Loading...</div></div>
-            </div>
-        </div>
-        
-        <div id="calendar" class="section">
-            <div class="card">
-                <h2>Scheduled Events</h2>
-                <div id="calendar-list" class="item-list"><div class="loading">Loading...</div></div>
-            </div>
-        </div>
-        
-        <div id="team" class="section">
-            <div class="org-tree" id="org-tree"><div class="loading">Loading...</div></div>
-            <div class="squad-section">
-                <h3>Operational Squads</h3>
-                <div id="squads-container" class="squad-grid"></div>
-            </div>
-        </div>
-        
-        <div id="memories" class="section">
-            <div class="card">
-                <h2>Search Memory Database</h2>
-                <input type="text" class="search-box" id="memory-search" placeholder="Enter search query..." onkeyup="searchMemories()">
-                <div id="memories-list"></div>
-            </div>
+        <div id="dashboard" class="section active"></div>
+        <div id="tasks" class="section"></div>
+        <div id="calendar" class="section"></div>
+        <div id="team" class="section"></div>
+        <div id="memories" class="section"></div>
+    </div>
+    <button class="btn-fab" onclick="openAddModal()">+</button>
+    <div class="toast-container" id="toast-container"></div>
+    <div class="form-overlay" id="form-overlay" onclick="closeModal(event)">
+        <div class="form-modal" onclick="event.stopPropagation()">
+            <h2 id="form-title">Add Item</h2>
+            <div id="form-content"></div>
         </div>
     </div>
-    
-    <script>
-        const API_URL = window.location.origin.includes('localhost') ? 'http://localhost:3456/api' : `${window.location.origin}/api`;
-        
-        async function fetchData(endpoint) {
-            try {
-                const response = await fetch(`${API_URL}${endpoint}`);
-                if (!response.ok) throw new Error(`HTTP ${response.status}`);
-                return await response.json();
-            } catch (error) {
-                console.error(`Error:`, error);
-                return null;
-            }
-        }
-        
-        function showSection(name) {
-            document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-            document.getElementById(name).classList.add('active');
-            event.target.classList.add('active');
-        }
-        
-        async function loadDashboard() {
-            const data = await fetchData('/dashboard');
-            if (!data) {
-                document.getElementById('dashboard-grid').innerHTML = '<div class="error">Failed to load</div>';
-                return;
-            }
-            document.getElementById('status').textContent = `Last sync: ${new Date(data.timestamp).toLocaleTimeString()}`;
-            
-            const html = `
-                <div class="card"><h2>Tasks</h2>
-                    <div class="stat-row"><span class="stat-label">Total</span><span class="stat-value">${data.tasks.total}</span></div>
-                    <div class="stat-row"><span class="stat-label">To Do</span><span class="stat-value" style="color:#fbbf24">${data.tasks.todo}</span></div>
-                    <div class="stat-row"><span class="stat-label">In Progress</span><span class="stat-value" style="color:#38bdf8">${data.tasks.inProgress}</span></div>
-                    <div class="stat-row"><span class="stat-label">Done</span><span class="stat-value" style="color:#34d399">${data.tasks.done}</span></div>
-                </div>
-                <div class="card"><h2>Today</h2>
-                    <div class="stat-row"><span class="stat-label">Events</span><span class="stat-value">${data.today.count.events}</span></div>
-                    <div class="stat-row"><span class="stat-label">Reminders</span><span class="stat-value">${data.today.count.reminders}</span></div>
-                </div>
-                <div class="card"><h2>Automation</h2>
-                    <div class="stat-row"><span class="stat-label">Active Jobs</span><span class="stat-value">${data.cronJobs.active}</span></div>
-                    <div class="stat-row"><span class="stat-label">Total Jobs</span><span class="stat-value">${data.cronJobs.total}</span></div>
-                </div>
-                <div class="card"><h2>Personnel</h2>
-                    <div class="stat-row"><span class="stat-label">Total Agents</span><span class="stat-value">${data.team.total}</span></div>
-                    <div class="stat-row"><span class="stat-label">Active</span><span class="stat-value" style="color:#34d399">${data.team.active}</span></div>
-                    <div class="stat-row"><span class="stat-label">Standby</span><span class="stat-value">${data.team.standby}</span></div>
-                </div>
-                <div class="card"><h2>Knowledge</h2>
-                    <div class="stat-row"><span class="stat-label">Memory Files</span><span class="stat-value">${data.memories.total}</span></div>
-                </div>
-                <div class="card"><h2>Alerts</h2>
-                    <div class="stat-row"><span class="stat-label">Pending</span><span class="stat-value" style="color:#fbbf24">${data.reminders.pending}</span></div>
-                    <div class="stat-row"><span class="stat-label">Completed</span><span class="stat-value" style="color:#64748b">${data.reminders.completed}</span></div>
-                </div>
-            `;
-            document.getElementById('dashboard-grid').innerHTML = html;
-        }
-        
-        async function loadTasks() {
-            const data = await fetchData('/tasks');
-            if (!data?.tasks) return;
-            const html = data.tasks.map(t => `
-                <div class="item">
-                    <div class="item-title">${t.title}</div>
-                    <div class="item-meta">
-                        <span class="badge badge-${t.status}">${t.status}</span>
-                        <span class="badge badge-${t.priority}">${t.priority}</span>
-                        <span>${t.assignee}</span>
-                    </div>
-                </div>
-            `).join('');
-            document.getElementById('tasks-list').innerHTML = html || '<div style="color:#64748b;text-align:center;padding:40px">No tasks</div>';
-        }
-        
-        async function loadCalendar() {
-            const data = await fetchData('/calendar/upcoming');
-            if (!data?.events) return;
-            const html = data.events.map(e => `
-                <div class="item">
-                    <div class="item-title">${e.title}</div>
-                    <div class="item-meta">
-                        <span class="badge badge-${e.type}">${e.type}</span>
-                        <span>${new Date(e.startTime).toLocaleDateString()}</span>
-                        <span>${e.assignee}</span>
-                    </div>
-                </div>
-            `).join('');
-            document.getElementById('calendar-list').innerHTML = html || '<div style="color:#64748b;text-align:center;padding:40px">No events</div>';
-        }
-        
-        async function loadTeam() {
-            const data = await fetchData('/team');
-            if (!data?.agents) return;
-            
-            const glorb = data.agents.find(a => a.id === 'glorb_main');
-            const devs = data.agents.filter(a => a.role.includes('Developer') || a.role.includes('Engineer'));
-            const writers = data.agents.filter(a => a.role.includes('Writer'));
-            const designers = data.agents.filter(a => a.role.includes('Designer'));
-            const research = data.agents.filter(a => a.role.includes('Research'));
-            
-            const treeHtml = `
-                <div class="org-level" style="position:relative">
-                    <div class="org-node">
-                        <div class="icon"><i class="fas fa-robot"></i></div>
-                        <div class="name">${glorb.name}</div>
-                        <div class="role">${glorb.role}</div>
-                        <span class="badge badge-${glorb.status}">${glorb.status}</span>
-                    </div>
-                </div>
-                <div style="position:relative;width:100%;margin-top:40px">
-                    <div style="position:absolute;top:-40px;left:10%;right:10%;height:1px;background:linear-gradient(to right,transparent,rgba(56,189,248,0.2),transparent)"></div>
-                    <div class="org-children">
-                        ${[...devs,...writers,...designers,...research].map(a => `
-                            <div class="org-node leaf">
-                                <div class="icon"><i class="fas fa-${a.role.includes('Developer')||a.role.includes('Engineer')?'code':a.role.includes('Writer')?'pen-nib':a.role.includes('Designer')?'paint-brush':'search'}"></i></div>
-                                <div class="name">${a.name}</div>
-                                <div class="role">${a.role}</div>
-                                <span class="badge badge-${a.status}">${a.status}</span>
-                            </div>
-                        `).join('')}
-                    </div>
-                </div>
-            `;
-            document.getElementById('org-tree').innerHTML = treeHtml;
-            
-            const squadsHtml = data.squads.map(s => {
-                const agents = data.agents.filter(a => s.agents.includes(a.id));
-                return `
-                    <div class="squad-card">
-                        <h4>${s.name}</h4>
-                        <p>${s.description}</p>
-                        <div class="squad-members">${agents.map(a => `<span class="squad-member">${a.name}</span>`).join('')}</div>
-                    </div>
-                `;
-            }).join('');
-            document.getElementById('squads-container').innerHTML = squadsHtml;
-        }
-        
-        async function loadMemories() {
-            const data = await fetchData('/memory');
-            if (!data?.memories) return;
-            const html = data.memories.map(m => `
-                <div class="item" onclick="loadMemory('${m.path}')" style="cursor:pointer">
-                    <div class="item-title">${m.title}</div>
-                    <div class="item-meta">
-                        <span class="badge badge-${m.type}">${m.type}</span>
-                        <span>${new Date(m.modifiedAt).toLocaleDateString()}</span>
-                    </div>
-                </div>
-            `).join('');
-            document.getElementById('memories-list').innerHTML = html || '<div style="color:#64748b">No memories</div>';
-        }
-        
-        async function loadMemory(path) {
-            const data = await fetchData(`/memory/read?path=${encodeURIComponent(path)}`);
-            if (data?.content) {
-                document.getElementById('memories-list').innerHTML = `
-                    <button onclick="loadMemories()" class="btn" style="margin-bottom:16px">Back</button>
-                    <div class="memory-content">${data.content.replace(/</g,'&lt;').replace(/>/g,'&gt;')}</div>
-                `;
-            }
-        }
-        
-        async function searchMemories() {
-            const q = document.getElementById('memory-search').value;
-            if (q.length < 2) { loadMemories(); return; }
-            const data = await fetchData(`/memory/search?q=${encodeURIComponent(q)}`);
-            if (!data?.results) return;
-            const html = data.results.map(r => `
-                <div class="item">
-                    <div class="item-title">${r.file}</div>
-                    <div class="item-meta">${r.matches.length} matches</div>
-                    ${r.matches.map(m => `<div style="margin-top:8px;padding:8px;background:rgba(0,0,0,0.2);border-radius:4px;font-size:0.8rem">${m.text}</div>`).join('')}
-                </div>
-            `).join('');
-            document.getElementById('memories-list').innerHTML = html || '<div style="color:#64748b">No matches</div>';
-        }
-        
-        async function loadAll() {
-            await loadDashboard();
-            await loadTasks();
-            await loadCalendar();
-            await loadTeam();
-            await loadMemories();
-        }
-        
-        loadAll();
-        setInterval(loadAll, 30000);
-    </script>
+    <script src="app.js"></script>
 </body>
 </html>
