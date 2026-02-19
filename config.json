@@ -1,0 +1,15 @@
+{
+  "trading": {
+    "tradeSize": 100,
+    "confirmTrades": true,
+    "enabled": true
+  },
+  "security": {
+    "sessionTimeout": 3600000,
+    "maxRetries": 3
+  },
+  "apiKeys": {
+    "masked": true
+  },
+  "lastUpdated": "2026-02-19T23:15:00.000Z"
+}

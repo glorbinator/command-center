@@ -95,6 +95,7 @@
         .stat-value.blue { color: #0a84ff; }
         .stat-value.orange { color: #ff9f0a; }
         .stat-value.purple { color: #af52de; }
+        .stat-value.red { color: #ff453a; }
         
         .stat-label {
             font-size: 13px;
@@ -336,6 +337,224 @@
             margin-top: 32px;
         }
         
+        /* Trading styles */
+        .trading-item {
+            display: flex;
+            align-items: center;
+            padding: 12px;
+            background: #1a1a1a;
+            border-radius: 8px;
+            margin-bottom: 8px;
+            border: 1px solid #222;
+        }
+        
+        .trading-item:last-child {
+            margin-bottom: 0;
+        }
+        
+        .trading-icon {
+            font-size: 20px;
+            margin-right: 12px;
+        }
+        
+        .trading-info {
+            flex: 1;
+        }
+        
+        .trading-symbol {
+            font-size: 13px;
+            font-weight: 600;
+            color: #fff;
+            margin-bottom: 4px;
+        }
+        
+        .trading-details {
+            font-size: 11px;
+            color: #888;
+        }
+        
+        .trading-btn {
+            background: #30d158;
+            border: none;
+            color: #000;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        
+        .trading-btn:hover {
+            opacity: 0.8;
+        }
+        
+        .trading-btn.sell {
+            background: #ff453a;
+            color: #fff;
+        }
+        
+        /* Login styles */
+        .login-container {
+            max-width: 400px;
+            margin: 100px auto;
+        }
+        
+        .login-card {
+            background: #141414;
+            border-radius: 16px;
+            padding: 32px;
+            border: 1px solid #222;
+        }
+        
+        .login-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: #fff;
+            text-align: center;
+            margin-bottom: 24px;
+        }
+        
+        .form-group {
+            margin-bottom: 16px;
+        }
+        
+        .form-group label {
+            display: block;
+            font-size: 13px;
+            color: #888;
+            margin-bottom: 8px;
+        }
+        
+        .form-group input {
+            width: 100%;
+            padding: 12px 16px;
+            background: #1a1a1a;
+            border: 1px solid #333;
+            border-radius: 8px;
+            color: #fff;
+            font-size: 14px;
+        }
+        
+        .form-group input:focus {
+            outline: none;
+            border-color: #0a84ff;
+        }
+        
+        .login-btn {
+            width: 100%;
+            background: #0a84ff;
+            border: none;
+            color: #fff;
+            padding: 12px 16px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 8px;
+        }
+        
+        .login-btn:hover {
+            opacity: 0.8;
+        }
+        
+        .login-error {
+            background: rgba(255, 69, 58, 0.15);
+            color: #ff453a;
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 13px;
+            margin-bottom: 16px;
+            display: none;
+        }
+        
+        .config-section {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        
+        .config-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .config-label {
+            color: #888;
+            font-size: 13px;
+        }
+        
+        .config-input {
+            width: 120px;
+            padding: 8px 12px;
+            background: #1a1a1a;
+            border: 1px solid #333;
+            border-radius: 6px;
+            color: #fff;
+            text-align: right;
+        }
+        
+        .config-select {
+            padding: 8px 12px;
+            background: #1a1a1a;
+            border: 1px solid #333;
+            border-radius: 6px;
+            color: #fff;
+        }
+        
+        .config-btn {
+            background: #0a84ff;
+            border: none;
+            color: #fff;
+            padding: 10px 16px;
+            border-radius: 6px;
+            font-size: 13px;
+            cursor: pointer;
+            margin-top: 8px;
+        }
+        
+        .hidden {
+            display: none !important;
+        }
+        
+        .nav-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 0;
+            border-bottom: 1px solid #222;
+            margin-bottom: 24px;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 24px;
+        }
+        
+        .nav-link {
+            color: #888;
+            text-decoration: none;
+            font-size: 14px;
+            cursor: pointer;
+        }
+        
+        .nav-link:hover,
+        .nav-link.active {
+            color: #fff;
+        }
+        
+        .nav-user {
+            color: #0a84ff;
+            font-size: 13px;
+        }
+        
+        .nav-logout {
+            color: #ff453a;
+            font-size: 13px;
+            cursor: pointer;
+            margin-left: 16px;
+        }
+        
         @media (max-width: 768px) {
             .grid { grid-template-columns: 1fr; }
             .section-grid { grid-template-columns: 1fr; }
@@ -344,138 +563,372 @@
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-            <h1>Command Center</h1>
-            <div class="header-subtitle">Real-time status dashboard</div>
-        </div>
-        
-        <!-- Overview Stats -->
-        <div class="grid">
-            <div class="card">
-                <div class="card-header">
-                    <div class="card-icon"><i class="fas fa-tasks"></i></div>
-                    <div class="card-title">Tasks</div>
+    <!-- Login Page -->
+    <div id="login-page" class="container login-container">
+        <div class="login-card">
+            <div class="login-title">🔐 Command Center</div>
+            <div id="login-error" class="login-error"></div>
+            <form id="login-form">
+                <div class="form-group">
+                    <label>Username</label>
+                    <input type="text" id="username" placeholder="Enter username" required>
                 </div>
-                <div class="stat-value" id="task-count">--</div>
-                <div class="stat-label" id="task-breakdown">Loading...</div>
-            </div>
-            
-            <div class="card">
-                <div class="card-header">
-                    <div class="card-icon"><i class="fas fa-calendar"></i></div>
-                    <div class="card-title">Events</div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" id="password" placeholder="Enter password" required>
                 </div>
-                <div class="stat-value blue" id="event-count">--</div>
-                <div class="stat-label">Upcoming</div>
-            </div>
-            
-            <div class="card">
-                <div class="card-header">
-                    <div class="card-icon"><i class="fas fa-users"></i></div>
-                    <div class="card-title">Team</div>
-                </div>
-                <div class="stat-value purple" id="team-count">--</div>
-                <div class="stat-label">Active Agents</div>
+                <button type="submit" class="login-btn">Login</button>
+            </form>
+            <div style="margin-top: 16px; text-align: center; font-size: 12px; color: #444;">
+                <p>Default: admin / glorb2024</p>
             </div>
         </div>
-        
-        <!-- Current Projects -->
-        <div class="full-width card" style="margin-bottom: 24px;">
-            <div class="section-title">
-                <i class="fas fa-rocket"></i>
-                Active Projects
+    </div>
+    
+    <!-- Main Dashboard -->
+    <div id="dashboard" class="container hidden">
+        <div class="nav-bar">
+            <h1 style="font-size: 24px;">Command Center</h1>
+            <div class="nav-links">
+                <span class="nav-link active" onclick="showSection('overview')">Overview</span>
+                <span class="nav-link" onclick="showSection('trading')">📈 Trading</span>
+                <span class="nav-link" onclick="showSection('tasks')">📋 Tasks</span>
+                <span class="nav-link" onclick="showSection('config')">⚙️ Config</span>
             </div>
-            <div class="section-grid">
-                <div class="project-card">
-                    <div class="project-header">
-                        <div class="project-name">Glorb Accountant</div>
-                        <div class="project-status status-active">Active</div>
-                    </div>
-                    <div class="project-desc">AI-powered financial assistant for personal/business accounting, expense tracking, and financial insights.</div>
-                    <div class="project-tags">
-                        <div class="tag">Finance</div>
-                        <div class="tag">AI Assistant</div>
-                        <div class="tag">Node.js</div>
-                    </div>
-                </div>
-                
-                <div class="project-card">
-                    <div class="project-header">
-                        <div class="project-name">Salesforce Integration</div>
-                        <div class="project-status status-planning">Planning</div>
-                    </div>
-                    <div class="project-desc">MCP server integration for Salesforce CRM, enabling natural language queries and data management.</div>
-                    <div class="project-tags">
-                        <div class="tag">Salesforce</div>
-                        <div class="tag">CRM</div>
-                        <div class="tag">MCP</div>
-                    </div>
-                </div>
-                
-                <div class="project-card">
-                    <div class="project-header">
-                        <div class="project-name">Command Center v2</div>
-                        <div class="project-status status-active">Active</div>
-                    </div>
-                    <div class="project-desc">Real-time task management, team coordination, and project tracking system.</div>
-                    <div class="project-tags">
-                        <div class="tag">Management</div>
-                        <div class="tag">React</div>
-                        <div class="tag">Node.js</div>
-                    </div>
-                </div>
-                
-                <div class="project-card">
-                    <div class="project-header">
-                        <div class="project-name">Memory System</div>
-                        <div class="project-status status-active">Active</div>
-                    </div>
-                    <div class="project-desc">Persistent memory storage for agent context, preferences, and learned patterns.</div>
-                    <div class="project-tags">
-                        <div class="tag">Memory</div>
-                        <div class="tag">Persistence</div>
-                        <div class="tag">Knowledge Base</div>
-                    </div>
-                </div>
+            <div>
+                <span class="nav-user" id="nav-user"></span>
+                <span class="nav-logout" onclick="logout()">Logout</span>
             </div>
         </div>
         
-        <!-- Tasks & Events -->
-        <div class="grid">
-            <div class="card">
-                <div class="section-title">Task Queue</div>
-                <div class="task-list" id="task-list">
-                    <div style="color: #444; text-align: center; padding: 20px;">Loading tasks...</div>
+        <!-- Overview Section -->
+        <div id="section-overview">
+            <!-- Overview Stats -->
+            <div class="grid">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-icon"><i class="fas fa-tasks"></i></div>
+                        <div class="card-title">Tasks</div>
+                    </div>
+                    <div class="stat-value" id="task-count">--</div>
+                    <div class="stat-label" id="task-breakdown">Loading...</div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-icon"><i class="fas fa-calendar"></i></div>
+                        <div class="card-title">Events</div>
+                    </div>
+                    <div class="stat-value blue" id="event-count">--</div>
+                    <div class="stat-label">Upcoming</div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-icon"><i class="fas fa-chart-line"></i></div>
+                        <div class="card-title">Trading</div>
+                    </div>
+                    <div class="stat-value green" id="trade-count">--</div>
+                    <div class="stat-label" id="trade-status">Opportunities</div>
                 </div>
             </div>
             
-            <div class="card">
-                <div class="section-title">Upcoming Events</div>
-                <div class="event-list" id="event-list">
-                    <div style="color: #444; text-align: center; padding: 20px;">Loading events...</div>
+            <!-- Active Projects -->
+            <div class="full-width card" style="margin-bottom: 24px;">
+                <div class="section-title">
+                    <i class="fas fa-rocket"></i>
+                    Active Projects
+                </div>
+                <div class="section-grid">
+                    <div class="project-card">
+                        <div class="project-header">
+                            <div class="project-name">Glorb Trader</div>
+                            <div class="project-status status-active">Active</div>
+                        </div>
+                        <div class="project-desc">AI-powered trading for Kalshi prediction markets and Kraken crypto exchange.</div>
+                        <div class="project-tags">
+                            <div class="tag">Trading</div>
+                            <div class="tag">Python</div>
+                            <div class="tag">API</div>
+                        </div>
+                    </div>
+                    
+                    <div class="project-card">
+                        <div class="project-header">
+                            <div class="project-name">Command Center</div>
+                            <div class="project-status status-active">Active</div>
+                        </div>
+                        <div class="project-desc">Real-time task management, team coordination, and project tracking system.</div>
+                        <div class="project-tags">
+                            <div class="tag">Management</div>
+                            <div class="tag">Node.js</div>
+                            <div class="tag">Dashboard</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Tasks & Events -->
+            <div class="grid">
+                <div class="card">
+                    <div class="section-title">Task Queue</div>
+                    <div class="task-list" id="task-list">
+                        <div style="color: #444; text-align: center; padding: 20px;">Loading tasks...</div>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="section-title">Upcoming Events</div>
+                    <div class="event-list" id="event-list">
+                        <div style="color: #444; text-align: center; padding: 20px;">Loading events...</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Team -->
+            <div class="full-width card">
+                <div class="section-title">
+                    <i class="fas fa-network-wired"></i>
+                    Team Status
+                </div>
+                <div class="team-grid" id="team-grid">
+                </div>
+            </div>
+            
+            <div class="last-updated">
+                Last updated: <span id="last-updated">--</span>
+            </div>
+        </div>
+        
+        <!-- Trading Section -->
+        <div id="section-trading" class="hidden">
+            <div class="grid" style="grid-template-columns: repeat(2, 1fr);">
+                <div class="card">
+                    <div class="section-title">
+                        <i class="fas fa-exchange-alt"></i>
+                        Trading Recommendations
+                        <button onclick="loadTrading()" style="margin-left: auto; background: #1a1a1a; border: 1px solid #333; color: #888; padding: 6px 12px; border-radius: 6px; font-size: 12px; cursor: pointer;">
+                            <i class="fas fa-sync"></i> Refresh
+                        </button>
+                    </div>
+                    <div id="trading-recommendations">
+                        <div style="color: #444; text-align: center; padding: 20px;">Loading recommendations...</div>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="section-title">
+                        <i class="fas fa-wallet"></i>
+                        Account Balances
+                    </div>
+                    <div id="trading-balances">
+                        <div style="color: #444; text-align: center; padding: 20px;">Loading balances...</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="full-width card" style="margin-top: 24px;">
+                <div class="section-title">
+                    <i class="fas fa-cog"></i>
+                    Trading Configuration
+                </div>
+                <div class="section-grid">
+                    <div class="config-section">
+                        <div class="config-row">
+                            <span class="config-label">Default Trade Size (USD)</span>
+                            <input type="number" id="trade-size" class="config-input" value="100">
+                        </div>
+                        <div class="config-row">
+                            <span class="config-label">Require Confirmation</span>
+                            <select id="confirm-trades" class="config-select">
+                                <option value="true">Yes</option>
+                                <option value="false">No</option>
+                            </select>
+                        </div>
+                        <div class="config-row">
+                            <span class="config-label">Trading Enabled</span>
+                            <select id="trading-enabled" class="config-select">
+                                <option value="true">Yes</option>
+                                <option value="false">No</option>
+                            </select>
+                        </div>
+                        <button onclick="saveTradingConfig()" class="config-btn">Save Configuration</button>
+                    </div>
+                    <div>
+                        <div id="config-status" style="color: #888; font-size: 13px;">Configuration loaded from server</div>
+                        <div style="font-size: 12px; color: #444; margin-top: 16px;">
+                            <p>📈 <strong>Kalshi:</strong> Prediction markets</p>
+                            <p>₿ <strong>Kraken:</strong> Crypto exchange</p>
+                            <p>🔒 <strong>Security:</strong> API keys stored securely</p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
         
-        <!-- Team -->
-        <div class="full-width card">
-            <div class="section-title">
-                <i class="fas fa-network-wired"></i>
-                Team Status
-            </div>
-            <div class="team-grid" id="team-grid">
-                <!-- Populated by JS -->
+        <!-- Tasks Section -->
+        <div id="section-tasks" class="hidden">
+            <div class="full-width card">
+                <div class="section-title">
+                    <i class="fas fa-tasks"></i>
+                    Task Management
+                </div>
+                <div class="section-grid">
+                    <div>
+                        <div class="form-group">
+                            <label>Add New Task</label>
+                            <input type="text" id="new-task-title" placeholder="Task title..." style="width: 100%; padding: 12px; background: #1a1a1a; border: 1px solid #333; border-radius: 8px; color: #fff;">
+                        </div>
+                        <div class="form-group">
+                            <label>Priority</label>
+                            <select id="new-task-priority" style="width: 100%; padding: 12px; background: #1a1a1a; border: 1px solid #333; border-radius: 8px; color: #fff;">
+                                <option value="low">Low</option>
+                                <option value="medium">Medium</option>
+                                <option value="high">High</option>
+                                <option value="urgent">Urgent</option>
+                            </select>
+                        </div>
+                        <button onclick="addTask()" class="config-btn">Add Task</button>
+                    </div>
+                    <div>
+                        <div class="section-title" style="font-size: 14px; margin-bottom: 12px;">Your Tasks</div>
+                        <div id="user-tasks">
+                            <div style="color: #444; text-align: center; padding: 20px;">Loading tasks...</div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
         
-        <div class="last-updated">
-            Last updated: <span id="last-updated">--</span>
+        <!-- Config Section -->
+        <div id="section-config" class="hidden">
+            <div class="full-width card">
+                <div class="section-title">
+                    <i class="fas fa-shield-alt"></i>
+                    Secure Configuration
+                </div>
+                <div class="section-grid">
+                    <div>
+                        <div class="section-title" style="font-size: 14px;">Change Password</div>
+                        <div class="form-group">
+                            <label>New Password</label>
+                            <input type="password" id="new-password" placeholder="Enter new password" style="width: 100%; padding: 12px; background: #1a1a1a; border: 1px solid #333; border-radius: 8px; color: #fff;">
+                        </div>
+                        <div class="form-group">
+                            <label>Confirm Password</label>
+                            <input type="password" id="confirm-password" placeholder="Confirm password" style="width: 100%; padding: 12px; background: #1a1a1a; border: 1px solid #333; border-radius: 8px; color: #fff;">
+                        </div>
+                        <button onclick="changePassword()" class="config-btn">Change Password</button>
+                    </div>
+                    <div>
+                        <div class="section-title" style="font-size: 14px;">System Info</div>
+                        <div style="font-size: 12px; color: #888; line-height: 1.8;">
+                            <p><strong>Version:</strong> 1.0.0</p>
+                            <p><strong>Trading Service:</strong> <span id="trading-status">Checking...</span></p>
+                            <p><strong>API Status:</strong> <span id="api-status">Checking...</span></p>
+                            <p><strong>Session:</strong> <span id="session-info">Active</span></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
     
     <script>
         const API = window.location.origin.includes('localhost') ? 'http://localhost:3456/api' : `${window.location.origin}/api`;
+        const TRADING_API = window.location.origin.includes('localhost') ? 'http://localhost:3457' : 'http://localhost:3457';
+        
+        let authToken = localStorage.getItem('glorb_token');
+        let currentUser = localStorage.getItem('glorb_user');
+        
+        // ========== AUTHENTICATION ==========
+        
+        function checkAuth() {
+            if (authToken && currentUser) {
+                verifySession();
+            } else {
+                showLogin();
+            }
+        }
+        
+        async function verifySession() {
+            try {
+                const res = await fetch(`${TRADING_API}/api/auth/verify`, {
+                    headers: { 'Authorization': `Bearer ${authToken}` }
+                });
+                const data = await res.json();
+                if (data.authenticated) {
+                    showDashboard(currentUser);
+                } else {
+                    showLogin();
+                }
+            } catch (e) {
+                showLogin();
+            }
+        }
+        
+        async function login(username, password) {
+            try {
+                const res = await fetch(`${TRADING_API}/api/auth/login`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username, password })
+                });
+                const data = await res.json();
+                if (data.token) {
+                    authToken = data.token;
+                    currentUser = data.user;
+                    localStorage.setItem('glorb_token', authToken);
+                    localStorage.setItem('glorb_user', currentUser);
+                    showDashboard(currentUser);
+                } else {
+                    showError(data.error || 'Login failed');
+                }
+            } catch (e) {
+                showError('Login failed: ' + e.message);
+            }
+        }
+        
+        function logout() {
+            localStorage.removeItem('glorb_token');
+            localStorage.removeItem('glorb_user');
+            authToken = null;
+            currentUser = null;
+            showLogin();
+        }
+        
+        function showLogin() {
+            document.getElementById('login-page').classList.remove('hidden');
+            document.getElementById('dashboard').classList.add('hidden');
+        }
+        
+        function showDashboard(user) {
+            document.getElementById('login-page').classList.add('hidden');
+            document.getElementById('dashboard').classList.remove('hidden');
+            document.getElementById('nav-user').textContent = user;
+            loadAll();
+        }
+        
+        function showError(msg) {
+            const el = document.getElementById('login-error');
+            el.textContent = msg;
+            el.style.display = 'block';
+        }
+        
+        // ========== NAVIGATION ==========
+        
+        function showSection(section) {
+            document.querySelectorAll('[id^="section-"]').forEach(el => el.classList.add('hidden'));
+            document.getElementById(`section-${section}`).classList.remove('hidden');
+            document.querySelectorAll('.nav-link').forEach(el => el.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            if (section === 'trading') loadTrading();
+            if (section === 'tasks') loadUserTasks();
+            if (section === 'config') checkSystemStatus();
+        }
+        
+        // ========== API FUNCTIONS ==========
         
         async function api(endpoint) {
             try {
@@ -484,66 +937,69 @@
             } catch (e) { console.error(e); return null; }
         }
         
+        async function tradingApi(endpoint, options = {}) {
+            try {
+                const res = await fetch(`${TRADING_API}${endpoint}`, {
+                    ...options,
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${authToken}`,
+                        ...options.headers
+                    }
+                });
+                return await res.json();
+            } catch (e) { console.error(e); return null; }
+        }
+        
+        // ========== MAIN LOAD ==========
+        
         async function loadAll() {
             const dashboard = await api('/dashboard');
             const tasks = await api('/tasks');
             const calendar = await api('/calendar/upcoming');
             const team = await api('/team');
             
-            // Update overview
             if (dashboard) {
                 document.getElementById('task-count').textContent = dashboard.tasks.total;
                 document.getElementById('task-breakdown').textContent = 
                     `${dashboard.tasks.todo} todo • ${dashboard.tasks.inProgress} active • ${dashboard.tasks.done} done`;
                 document.getElementById('event-count').textContent = dashboard.today.count.events;
-                document.getElementById('team-count').textContent = dashboard.team.active;
                 document.getElementById('last-updated').textContent = new Date().toLocaleString();
             }
             
-            // Tasks
             if (tasks?.tasks) {
                 const list = document.getElementById('task-list');
-                if (tasks.tasks.length === 0) {
-                    list.innerHTML = '<div style="color: #444; text-align: center; padding: 20px;">No active tasks</div>';
-                } else {
-                    list.innerHTML = tasks.tasks.slice(0, 8).map(t => `
-                        <div class="task-item">
-                            <div class="task-status status-${t.status}"></div>
-                            <div class="task-content">
-                                <div class="task-title">${t.title}</div>
-                                <div class="task-meta">${t.assignee} • ${t.priority}</div>
-                            </div>
-                            <div class="task-badge">${t.status}</div>
+                list.innerHTML = tasks.tasks.slice(0, 8).map(t => `
+                    <div class="task-item">
+                        <div class="task-status status-${t.status}"></div>
+                        <div class="task-content">
+                            <div class="task-title">${t.title}</div>
+                            <div class="task-meta">${t.assignee} • ${t.priority}</div>
                         </div>
-                    `).join('');
-                }
+                        <div class="task-badge">${t.status}</div>
+                    </div>
+                `).join('') || '<div style="color: #444; text-align: center; padding: 20px;">No active tasks</div>';
             }
             
-            // Calendar
             if (calendar?.events) {
                 const list = document.getElementById('event-list');
-                if (calendar.events.length === 0) {
-                    list.innerHTML = '<div style="color: #444; text-align: center; padding: 20px;">No upcoming events</div>';
-                } else {
-                    list.innerHTML = calendar.events.slice(0, 5).map(e => {
-                        const date = new Date(e.startTime);
-                        return `
-                            <div class="event-item">
-                                <div class="event-date">
-                                    <div class="event-day">${date.getDate()}</div>
-                                    <div class="event-month">${date.toLocaleString('default', { month: 'short' })}</div>
-                                </div>
-                                <div class="event-content">
-                                    <div class="event-title">${e.title}</div>
-                                    <div class="event-meta">${e.assignee} • ${e.type}</div>
-                                </div>
+                list.innerHTML = calendar.events.slice(0, 5).map(e => {
+                    const date = new Date(e.startTime);
+                    return `
+                        <div class="event-item">
+                            <div class="event-date">
+                                <div class="event-day">${date.getDate()}</div>
+                                <div class="event-month">${date.toLocaleString('default', { month: 'short' })}</div>
                             </div>
-                        `;
-                    }).join('');
-                }
+                            <div class="event-content">
+                                <div class="event-title">${e.title}</div>
+                                <div class="event-meta">${e.assignee} • ${e.type}</div>
+                            </div>
+                        </div>
+                    `;
+                }).join('') || '<div style="color: #444; text-align: center; padding: 20px;">No upcoming events</div>';
             }
             
-            // Team
             if (team?.agents) {
                 const grid = document.getElementById('team-grid');
                 grid.innerHTML = team.agents.map(a => `
@@ -554,10 +1010,243 @@
                     </div>
                 `).join('');
             }
+            
+            await loadTrading();
         }
         
-        loadAll();
-        setInterval(loadAll, 30000);
+        // ========== TRADING FUNCTIONS ==========
+        
+        async function loadTrading() {
+            const recommendations = await tradingApi('/api/trading/recommendations');
+            const balances = await tradingApi('/api/trading/balances');
+            const config = await tradingApi('/api/trading/config');
+            
+            if (recommendations) {
+                document.getElementById('trade-count').textContent = recommendations.count || 0;
+                document.getElementById('trade-status').textContent = 'Opportunities';
+            }
+            
+            const recContainer = document.getElementById('trading-recommendations');
+            if (recommendations?.suggestions?.length > 0) {
+                recContainer.innerHTML = recommendations.suggestions.slice(0, 5).map((s, i) => {
+                    const marketIcon = s.market === 'kalshi' ? '🎯' : '₿';
+                    const sideColor = s.side === 'yes' || s.side === 'buy' ? '#30d158' : '#ff453a';
+                    
+                    return `
+                        <div class="trading-item">
+                            <div class="trading-icon">${marketIcon}</div>
+                            <div class="trading-info">
+                                <div class="trading-symbol">${s.symbol}</div>
+                                <div class="trading-details">
+                                    ${s.side.toUpperCase()} • $${s.amount.toFixed(2)} • ${(s.confidence * 100).toFixed(0)}% confidence
+                                </div>
+                            </div>
+                            <button class="trading-btn ${s.side === 'no' || s.side === 'sell' ? 'sell' : ''}" onclick="executeTrade(${i})">
+                                Execute
+                            </button>
+                        </div>
+                    `;
+                }).join('');
+            } else {
+                recContainer.innerHTML = '<div style="color: #444; text-align: center; padding: 20px;">No active trading opportunities</div>';
+            }
+            
+            const balanceContainer = document.getElementById('trading-balances');
+            if (balances?.balances) {
+                let balanceHtml = '';
+                const kalshi = balances.balances.kalshi || {};
+                const kraken = balances.balances.kraken || {};
+                
+                if (Object.keys(kalshi).length > 0) {
+                    balanceHtml += '<div style="font-size: 12px; color: #0a84ff; margin-bottom: 8px;">📈 Kalshi</div>';
+                    for (const [asset, amount] of Object.entries(kalshi)) {
+                        balanceHtml += `<div style="display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px solid #222; font-size: 12px;"><span>${asset}</span><span style="color: #30d158;">${amount}</span></div>`;
+                    }
+                }
+                
+                if (Object.keys(kraken).length > 0) {
+                    balanceHtml += '<div style="font-size: 12px; color: #0a84ff; margin: 12px 0 8px;">₿ Kraken</div>';
+                    for (const [asset, amount] of Object.entries(kraken)) {
+                        if (amount > 0) {
+                            balanceHtml += `<div style="display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px solid #222; font-size: 12px;"><span>${asset}</span><span style="color: #30d158;">${amount}</span></div>`;
+                        }
+                    }
+                }
+                
+                balanceContainer.innerHTML = balanceHtml || '<div style="color: #444; text-align: center; padding: 10px;">No balances available</div>';
+            } else {
+                balanceContainer.innerHTML = '<div style="color: #444; text-align: center; padding: 20px;">Unable to load balances</div>';
+            }
+            
+            if (config?.config) {
+                document.getElementById('trade-size').value = config.config.tradeSize || 100;
+                document.getElementById('confirm-trades').value = config.config.confirmTrades ? 'true' : 'false';
+                document.getElementById('trading-enabled').value = config.config.enabled ? 'true' : 'false';
+                document.getElementById('config-status').textContent = 'Configuration loaded successfully';
+            }
+        }
+        
+        async function executeTrade(index) {
+            const recommendations = await tradingApi('/api/trading/recommendations');
+            const suggestion = recommendations?.suggestions?.[index];
+            
+            if (!suggestion) {
+                alert('Unable to execute trade: recommendation not found');
+                return;
+            }
+            
+            const confirmed = confirm(`Execute ${suggestion.side.toUpperCase()} on ${suggestion.symbol}?\n\nAmount: $${suggestion.amount.toFixed(2)}\nConfidence: ${(suggestion.confidence * 100).toFixed(0)}%`);
+            
+            if (!confirmed) return;
+            
+            try {
+                const result = await tradingApi('/api/trading/execute', {
+                    method: 'POST',
+                    body: JSON.stringify({ suggestion })
+                });
+                
+                if (result.status === 'pending') {
+                    alert(`Trade pending confirmation (ID: ${result.trade_id})\n\nWaiting for approval...`);
+                } else if (result.status === 'executed') {
+                    alert('Trade executed successfully!');
+                    loadTrading();
+                } else {
+                    alert('Trade failed: ' + (result.error || 'Unknown error'));
+                }
+            } catch (e) {
+                alert('Error executing trade: ' + e.message);
+            }
+        }
+        
+        async function saveTradingConfig() {
+            const config = {
+                tradeSize: parseInt(document.getElementById('trade-size').value) || 100,
+                confirmTrades: document.getElementById('confirm-trades').value === 'true',
+                enabled: document.getElementById('trading-enabled').value === 'true'
+            };
+            
+            try {
+                const result = await tradingApi('/api/trading/config', {
+                    method: 'POST',
+                    body: JSON.stringify(config)
+                });
+                
+                if (result.status === 'updated') {
+                    document.getElementById('config-status').textContent = 'Configuration saved!';
+                    setTimeout(() => {
+                        document.getElementById('config-status').textContent = 'Configuration loaded from server';
+                    }, 3000);
+                } else {
+                    document.getElementById('config-status').textContent = 'Error saving configuration';
+                }
+            } catch (e) {
+                document.getElementById('config-status').textContent = 'Error: ' + e.message;
+            }
+        }
+        
+        // ========== TASK FUNCTIONS ==========
+        
+        async function loadUserTasks() {
+            const tasks = await api('/tasks');
+            const container = document.getElementById('user-tasks');
+            
+            if (tasks?.tasks?.length > 0) {
+                container.innerHTML = tasks.tasks.slice(0, 10).map(t => `
+                    <div class="trading-item">
+                        <div class="trading-icon">📋</div>
+                        <div class="trading-info">
+                            <div class="trading-symbol">${t.title}</div>
+                            <div class="trading-details">${t.assignee} • ${t.priority} • ${t.status}</div>
+                        </div>
+                        <button class="trading-btn" onclick="deleteTask('${t.id}')">🗑</button>
+                    </div>
+                `).join('');
+            } else {
+                container.innerHTML = '<div style="color: #444; text-align: center; padding: 20px;">No tasks found</div>';
+            }
+        }
+        
+        async function addTask() {
+            const title = document.getElementById('new-task-title').value.trim();
+            const priority = document.getElementById('new-task-priority').value;
+            
+            if (!title) {
+                alert('Please enter a task title');
+                return;
+            }
+            
+            try {
+                const result = await api('/tasks', {
+                    method: 'POST',
+                    body: JSON.stringify({
+                        title,
+                        assignee: currentUser,
+                        priority,
+                        status: 'todo'
+                    })
+                });
+                
+                if (result.id) {
+                    document.getElementById('new-task-title').value = '';
+                    loadUserTasks();
+                }
+            } catch (e) {
+                alert('Error adding task: ' + e.message);
+            }
+        }
+        
+        async function deleteTask(taskId) {
+            if (!confirm('Delete this task?')) return;
+            
+            try {
+                await fetch(`${API}/tasks/${taskId}`, { method: 'DELETE' });
+                loadUserTasks();
+            } catch (e) {
+                alert('Error deleting task: ' + e.message);
+            }
+        }
+        
+        // ========== CONFIG FUNCTIONS ==========
+        
+        async function checkSystemStatus() {
+            const status = await tradingApi('/api/trading/health');
+            document.getElementById('trading-status').textContent = status?.status || 'Unknown';
+            document.getElementById('trading-status').style.color = status?.status === 'healthy' ? '#30d158' : '#ff453a';
+            document.getElementById('api-status').textContent = status?.trading_available ? 'Available' : 'Unavailable';
+        }
+        
+        async function changePassword() {
+            const newPass = document.getElementById('new-password').value;
+            const confirmPass = document.getElementById('confirm-password').value;
+            
+            if (!newPass || newPass !== confirmPass) {
+                alert('Passwords do not match or are empty');
+                return;
+            }
+            
+            alert('Password change requires server restart. For now, manually update trading-service.py');
+            document.getElementById('new-password').value = '';
+            document.getElementById('confirm-password').value = '';
+        }
+        
+        // ========== INITIALIZATION ==========
+        
+        document.getElementById('login-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            login(username, password);
+        });
+        
+        // Check auth on load
+        checkAuth();
+        
+        // Auto-refresh main dashboard
+        setInterval(() => {
+            if (document.getElementById('dashboard').classList.contains('hidden') === false) {
+                loadAll();
+            }
+        }, 30000);
     </script>
 </body>
 </html>

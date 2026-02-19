@@ -1064,14 +1064,132 @@ wss.on('connection', (ws) => {
   });
 });
 
-// Start server
-server.listen(PORT, () => {
-  console.log(`🚀 Command Center running on port ${PORT}`);
-  console.log(`📊 Tasks API: http://localhost:${PORT}/api/tasks`);
-  console.log(`📅 Calendar API: http://localhost:${PORT}/api/calendar`);
-  console.log(`⏰ Cron Jobs API: http://localhost:${PORT}/api/cron`);
-  console.log(`🧠 Memory API: http://localhost:${PORT}/api/memory`);
-  console.log(`🔔 Reminders API: http://localhost:${PORT}/api/reminders`);
-  console.log(`📈 Dashboard: http://localhost:${PORT}/api/dashboard`);
-  console.log(`🔌 WebSocket: ws://localhost:${PORT}`);
+// ========== TRADING API ==========
+
+const TRADING_SERVICE_URL = process.env.TRADING_SERVICE_URL || 'http://localhost:3457';
+
+// Helper to proxy requests to trading service
+async function proxyToTrading(endpoint, method = 'GET', body = null) {
+  try {
+    const url = `${TRADING_SERVICE_URL}${endpoint}`;
+    const options = {
+      method,
+      headers: { 'Content-Type': 'application/json' }
+    };
+    
+    if (body) {
+      options.body = JSON.stringify(body);
+    }
+    
+    const response = await fetch(url, options);
+    return await response.json();
+  } catch (error) {
+    console.error('Trading service error:', error);
+    return { error: 'Trading service unavailable', details: error.message };
+  }
+}
+
+// Get trading recommendations
+app.get('/api/trading/recommendations', async (req, res) => {
+  const result = await proxyToTrading('/api/trading/recommendations');
+  res.json(result);
 });
+
+// Get account balances
+app.get('/api/trading/balances', async (req, res) => {
+  const result = await proxyToTrading('/api/trading/balances');
+  res.json(result);
+});
+
+// Get trading configuration
+app.get('/api/trading/config', async (req, res) => {
+  const result = await proxyToTrading('/api/trading/config');
+  res.json(result);
+});
+
+// Update trading configuration
+app.post('/api/trading/config', async (req, res) => {
+  const result = await proxyToTrading('/api/trading/config', 'POST', req.body);
+  res.json(result);
+});
+
+// Execute a trade
+app.post('/api/trading/execute', async (req, res) => {
+  const result = await proxyToTrading('/api/trading/execute', 'POST', req.body);
+  res.json(result);
+});
+
+// Confirm a pending trade
+app.post('/api/trading/confirm', async (req, res) => {
+  const result = await proxyToTrading('/api/trading/confirm', 'POST', req.body);
+  res.json(result);
+});
+
+// Cancel a pending trade
+app.post('/api/trading/cancel', async (req, res) => {
+  const result = await proxyToTrading('/api/trading/cancel', 'POST', req.body);
+  res.json(result);
+});
+
+// Trading health check
+app.get('/api/trading/health', async (req, res) => {
+  const result = await proxyToTrading('/api/trading/health');
+  res.json(result);
+});
+
+// ========== SECURE CONFIG API ==========
+
+const CONFIG_FILE = path.join(__dirname, 'config.json');
+
+// Load config
+function loadConfig() {
+  try {
+    const data = fs.readFileSync(CONFIG_FILE, 'utf8');
+    return JSON.parse(data);
+  } catch (e) {
+    return { 
+      trading: { tradeSize: 100, confirmTrades: true, enabled: true },
+      security: { sessionTimeout: 3600000, maxRetries: 3 },
+      apiKeys: { masked: true }
+    };
+  }
+}
+
+// Save config
+function saveConfig(data) {
+  fs.writeFileSync(CONFIG_FILE, JSON.stringify(data, null, 2));
+}
+
+// Get config (masked)
+app.get('/api/config', (req, res) => {
+  const config = loadConfig();
+  
+  // Mask sensitive data
+  const masked = {
+    ...config,
+    apiKeys: { masked: true }
+  };
+  
+  res.json(masked);
+});
+
+// Update config (authenticated)
+app.post('/api/config', (req, res) => {
+  const config = loadConfig();
+  
+  // Update only allowed fields
+  const allowedFields = ['trading', 'security'];
+  allowedFields.forEach(field => {
+    if (req.body[field] !== undefined) {
+      config[field] = { ...config[field], ...req.body[field] };
+    }
+  });
+  
+  saveConfig(config);
+  broadcast({ type: 'CONFIG_UPDATED', config });
+  res.json({ message: 'Configuration updated', config: loadConfig() });
+});
+
+// ========== SYSTEM API ==========
+
+const { exec } = require('child_process');
