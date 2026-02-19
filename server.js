@@ -1191,5 +1191,4 @@ app.post('/api/config', (req, res) => {
 });
 
 // ========== SYSTEM API ==========
-
-const { exec } = require('child_process');
+// Note: exec is already declared above
