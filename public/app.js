@@ -132,3 +132,54 @@ async function searchMem(q) {
 // Init
 render.dashboard();
 setInterval(render.dashboard, 30000);
+
+// System/Storage
+render.system = async function() {
+    const d = await api('/system/storage');
+    if (!d) return;
+    
+    const percent = d.percentUsed;
+    const color = percent > 90 ? 'var(--danger)' : percent > 70 ? 'var(--warn)' : 'var(--success)';
+    
+    document.getElementById('system').innerHTML = `
+        <div class="grid">
+            <div class="card" style="grid-column: 1 / -1;">
+                <div class="card-header"><h2>Storage Overview</h2></div>
+                <div style="padding: 20px 0;">
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+                        <span style="color: var(--muted);">Used: ${d.used}</span>
+                        <span style="color: var(--muted);">Total: ${d.total}</span>
+                    </div>
+                    <div style="height: 30px; background: rgba(56,189,248,0.1); border-radius: 4px; overflow: hidden;">
+                        <div style="height: 100%; width: ${percent}%; background: ${color}; transition: width 0.5s;"></div>
+                    </div>
+                    <div style="text-align: center; margin-top: 10px; font-size: 1.2rem; color: ${color};">
+                        ${percent}% Used (${d.available} available)
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="card">
+            <div class="card-header"><h2>Workspace Breakdown</h2></div>
+            <div class="item-list">
+                ${d.breakdown.map(item => `
+                    <div class="item">
+                        <div class="item-title">${item.name}</div>
+                        <div class="item-meta">
+                            <span class="badge badge-${item.type === 'directory' ? 'progress' : 'todo'}">${item.type}</span>
+                            <span style="color: var(--accent); font-weight: 500;">${item.size}</span>
+                        </div>
+                    </div>
+                `).join('') || '<div style="color: var(--muted); padding: 20px;">No large files detected</div>'}
+            </div>
+        </div>
+        
+        <div class="card" style="margin-top: 20px;">
+            <div class="card-header"><h2>System Info</h2></div>
+            <div class="stat-row"><span class="stat-label">Filesystem</span><span class="stat-value">${d.filesystem}</span></div>
+            <div class="stat-row"><span class="stat-label">Status</span><span class="stat-value" style="color: ${color}">${d.status.toUpperCase()}</span></div>
+            <div class="stat-row"><span class="stat-label">Last Updated</span><span class="stat-value">${new Date(d.timestamp).toLocaleTimeString()}</span></div>
+        </div>
+    `;
+};
