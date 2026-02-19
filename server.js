@@ -17,6 +17,7 @@ const CRON_JOBS_FILE = path.join(__dirname, 'cron-jobs.json');
 // Middleware
 app.use(cors());
 app.use(express.json());
+app.use(express.static('public'));
 
 // Utility: Load tasks from file
 function loadTasks() {
