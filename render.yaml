@@ -4,7 +4,7 @@ services:
     runtime: node
     repo: https://github.com/glorbinator/command-center
     branch: main
-    buildCommand: npm install && pip install -r glorb-trader/requirements.txt
+    buildCommand: npm install && pip install --no-cache-dir -r glorb-trader/requirements.txt
     startCommand: ./start.sh
     envVars:
       - key: NODE_ENV
@@ -13,4 +13,6 @@ services:
         value: 10000
       - key: TRADING_SERVICE_URL
         value: http://localhost:3457
+      - key: PYTHONPATH
+        value: /opt/render/project/src
     autoDeploy: true
