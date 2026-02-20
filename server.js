@@ -1192,3 +1192,17 @@ app.post('/api/config', (req, res) => {
 
 // ========== SYSTEM API ==========
 // Note: exec is already declared above
+
+// ========== START SERVER ==========
+
+// Only listen if this is the main module (not imported for testing)
+if (require.main === module) {
+  server.listen(PORT, () => {
+    console.log(`Command Center server running on port ${PORT}`);
+    console.log(`Health check: http://localhost:${PORT}/api/health`);
+    console.log(`Dashboard: http://localhost:${PORT}/`);
+  });
+}
+
+// Export for testing
+module.exports = { app, server, wss };
