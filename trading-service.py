@@ -66,6 +66,10 @@ class TradeSuggestion:
 
 # Simple user database (in production, use a real database)
 USERS = {
+    "glorbOP": {
+        "password_hash": hashlib.sha256("Zach1441!".encode()).hexdigest(),
+        "role": "admin"
+    },
     "admin": {
         "password_hash": hashlib.sha256("glorb2024".encode()).hexdigest(),
         "role": "admin"
