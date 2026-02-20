@@ -1173,6 +1173,98 @@ app.get('/api/config', (req, res) => {
   res.json(masked);
 });
 
+// ========== AUTHENTICATION ==========
+
+const crypto = require('crypto');
+
+// Simple user database (matching trading-service.py)
+const USERS = {
+  "glorbOP": {
+    password_hash: crypto.createHash('sha256').update("Zach1441!").digest('hex'),
+    role: "admin"
+  },
+  "admin": {
+    password_hash: crypto.createHash('sha256').update("glorb2024").digest('hex'),
+    role: "admin"
+  },
+  "glorb": {
+    password_hash: crypto.createHash('sha256').update("trader123").digest('hex'),
+    role: "user"
+  }
+};
+
+function generateSessionToken() {
+  return crypto.randomBytes(32).toString('hex');
+}
+
+// Session store
+const activeSessions = {};
+
+// Login endpoint
+app.post('/api/auth/login', (req, res) => {
+  const { username, password } = req.body;
+  
+  if (!username || !password) {
+    return res.status(400).json({ error: 'Username and password required' });
+  }
+  
+  if (!USERS[username]) {
+    return res.status(401).json({ error: 'Invalid credentials' });
+  }
+  
+  const password_hash = crypto.createHash('sha256').update(password).digest('hex');
+  if (password_hash !== USERS[username].password_hash) {
+    return res.status(401).json({ error: 'Invalid credentials' });
+  }
+  
+  const token = generateSessionToken();
+  activeSessions[token] = {
+    username,
+    role: USERS[username].role,
+    createdAt: new Date().toISOString()
+  };
+  
+  res.json({
+    token,
+    user: username,
+    role: USERS[username].role
+  });
+});
+
+// Verify session endpoint
+app.get('/api/auth/verify', (req, res) => {
+  const authHeader = req.headers.authorization;
+  
+  if (!authHeader || !authHeader.startsWith('Bearer ')) {
+    return res.status(401).json({ authenticated: false });
+  }
+  
+  const token = authHeader.substring(7);
+  const session = activeSessions[token];
+  
+  if (!session) {
+    return res.status(401).json({ authenticated: false });
+  }
+  
+  res.json({
+    authenticated: true,
+    user: session.username,
+    role: session.role
+  });
+});
+
+// Logout endpoint
+app.post('/api/auth/logout', (req, res) => {
+  const authHeader = req.headers.authorization;
+  
+  if (authHeader && authHeader.startsWith('Bearer ')) {
+    const token = authHeader.substring(7);
+    delete activeSessions[token];
+  }
+  
+  res.json({ message: 'Logged out' });
+});
+
 // Update config (authenticated)
 app.post('/api/config', (req, res) => {
   const config = loadConfig();
